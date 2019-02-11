@@ -44,8 +44,16 @@ class Alien(Sprite):
             self.image2 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-        sprite_info = sprites.sprite_infos["invader_death.png"]
+        sprite_info = sprites.sprite_infos["invader_death_1_1.png"]
         self.image3 = sprites.sprite_sheet.subsurface(
+            pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
+
+        sprite_info = sprites.sprite_infos["invader_death_1_2.png"]
+        self.image4 = sprites.sprite_sheet.subsurface(
+            pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
+
+        sprite_info = sprites.sprite_infos["invader_death_1_3.png"]
+        self.image5 = sprites.sprite_sheet.subsurface(
             pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
         self.image1 = self.image
@@ -74,7 +82,19 @@ class Alien(Sprite):
         """Move the alien right."""
 
         if self.toggle_death:
-            self.dead = True
+            if self.max_frames == 80.0:
+                self.max_frames = 6.0
+                self.cur_frame = 0.0
+                self.image = self.image3
+            else:
+                self.cur_frame += 1.0
+
+                if self.cur_frame == 2.0:
+                    self.image = self.image4
+                elif self.cur_frame == 4.0:
+                    self.image = self.image5
+                elif self.cur_frame == self.max_frames:
+                    self.dead = True
         else:
             # Update the sprite animation.
             self.cur_frame += 0.5 * self.ai_settings.alien_speed_factor

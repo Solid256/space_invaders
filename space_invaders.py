@@ -1,5 +1,6 @@
 import sys
 import pygame
+import random
 
 from pygame.sprite import Group
 from settings import Settings
@@ -19,6 +20,9 @@ def run_game():
 
     # Get the pygame clock.
     pygame_clock = pygame.time.Clock()
+
+    # Initialize the random seed.
+    random.seed()
 
     # Create the game settings.
     ai_settings = Settings()

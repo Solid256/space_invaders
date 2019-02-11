@@ -215,7 +215,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens,
 
             for saucer in saucerGroup:
                 saucer.toggle_death = True
-                saucer.image = saucer.image3
+                # todo: create saucer score image.
 
             check_high_score(stats, sb)
             pygame.mixer.Sound.play(ship.sound_blast)

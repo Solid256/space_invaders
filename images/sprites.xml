@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:11c8e3271e8f84836774dc38543405f4:2e01c70b2107adc389776b28e30e8ded:a3c246832ea35f0bdda766159aff8361$ -->
+<!-- $TexturePacker:SmartUpdate:343af214308e61d020db45942e1c2359:49c4c0b9d912e5609a0b47176221e069:a3c246832ea35f0bdda766159aff8361$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,28 +19,35 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="sprites.png" width="64" height="992">
+<TextureAtlas imagePath="sprites.png" width="128" height="1056">
     <sprite n="invader1_1.png" x="0" y="0" w="64" h="64"/>
-    <sprite n="invader1_2.png" x="0" y="64" w="64" h="64"/>
-    <sprite n="invader2_1.png" x="0" y="128" w="64" h="64"/>
-    <sprite n="invader2_2.png" x="0" y="192" w="64" h="64"/>
-    <sprite n="invader3_1.png" x="0" y="256" w="64" h="64"/>
-    <sprite n="invader3_2.png" x="0" y="320" w="64" h="64"/>
-    <sprite n="invader4_1.png" x="0" y="384" w="64" h="64"/>
-    <sprite n="invader4_2.png" x="0" y="448" w="64" h="64"/>
-    <sprite n="invader_death.png" x="0" y="512" w="64" h="64"/>
-    <sprite n="invader_death_2.png" x="0" y="576" w="64" h="64"/>
-    <sprite n="ship.png" x="0" y="640" w="64" h="64"/>
-    <sprite n="ship_death_1.png" x="0" y="704" w="64" h="64"/>
-    <sprite n="ship_death_2.png" x="0" y="768" w="64" h="64"/>
-    <sprite n="wall1_1.png" x="0" y="832" w="32" h="32"/>
-    <sprite n="wall1_2.png" x="32" y="832" w="32" h="32"/>
-    <sprite n="wall1BL_1.png" x="0" y="864" w="32" h="32"/>
-    <sprite n="wall1BL_2.png" x="32" y="864" w="32" h="32"/>
-    <sprite n="wall1BR_1.png" x="0" y="896" w="32" h="32"/>
-    <sprite n="wall1BR_2.png" x="32" y="896" w="32" h="32"/>
-    <sprite n="wall1TL_1.png" x="0" y="928" w="32" h="32"/>
-    <sprite n="wall1TL_2.png" x="32" y="928" w="32" h="32"/>
-    <sprite n="wall1TR_1.png" x="0" y="960" w="32" h="32"/>
-    <sprite n="wall1TR_2.png" x="32" y="960" w="32" h="32"/>
+    <sprite n="invader1_2.png" x="64" y="0" w="64" h="64"/>
+    <sprite n="invader2_1.png" x="0" y="64" w="64" h="64"/>
+    <sprite n="invader2_2.png" x="64" y="64" w="64" h="64"/>
+    <sprite n="invader3_1.png" x="0" y="128" w="64" h="64"/>
+    <sprite n="invader3_2.png" x="64" y="128" w="64" h="64"/>
+    <sprite n="invader4_1.png" x="0" y="192" w="128" h="64"/>
+    <sprite n="invader4_2.png" x="0" y="256" w="128" h="64"/>
+    <sprite n="invader_death_1_1.png" x="0" y="320" w="64" h="64"/>
+    <sprite n="invader_death_1_2.png" x="64" y="320" w="64" h="64"/>
+    <sprite n="invader_death_1_3.png" x="0" y="384" w="64" h="64"/>
+    <sprite n="ship.png" x="64" y="384" w="64" h="64"/>
+    <sprite n="ship_death_1.png" x="0" y="448" w="64" h="128"/>
+    <sprite n="ship_death_2.png" x="64" y="448" w="64" h="128"/>
+    <sprite n="ship_death_3.png" x="0" y="576" w="64" h="128"/>
+    <sprite n="ship_death_4.png" x="64" y="576" w="64" h="128"/>
+    <sprite n="ship_death_5.png" x="0" y="704" w="64" h="128"/>
+    <sprite n="ship_death_6.png" x="64" y="704" w="64" h="128"/>
+    <sprite n="ship_death_7.png" x="0" y="832" w="64" h="128"/>
+    <sprite n="ship_death_8.png" x="64" y="832" w="64" h="128"/>
+    <sprite n="wall1_1.png" x="0" y="960" w="32" h="32"/>
+    <sprite n="wall1_2.png" x="32" y="960" w="32" h="32"/>
+    <sprite n="wall1BL_1.png" x="64" y="960" w="32" h="32"/>
+    <sprite n="wall1BL_2.png" x="96" y="960" w="32" h="32"/>
+    <sprite n="wall1BR_1.png" x="0" y="992" w="32" h="32"/>
+    <sprite n="wall1BR_2.png" x="32" y="992" w="32" h="32"/>
+    <sprite n="wall1TL_1.png" x="64" y="992" w="32" h="32"/>
+    <sprite n="wall1TL_2.png" x="96" y="992" w="32" h="32"/>
+    <sprite n="wall1TR_1.png" x="0" y="1024" w="32" h="32"/>
+    <sprite n="wall1TR_2.png" x="32" y="1024" w="32" h="32"/>
 </TextureAtlas>

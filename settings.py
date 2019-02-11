@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 class Settings:
@@ -15,7 +16,7 @@ class Settings:
         self.ship_limit = 3
 
         # Bullet settings:
-        self.bullet_width = 3
+        self.bullet_width = 9
         self.bullet_height = 15
         self.bullet_color = 180, 180, 180
         self.bullets_allowed = 3
@@ -57,9 +58,11 @@ class Settings:
 
         self.ship_destroyed = False
         self.cur_frame_ship_destroyed = 0.0
-        self.max_frame_ship_destroyed = 20.0
+        self.max_frame_ship_destroyed = 40.0
 
         self.end_level = False
+
+        random.seed()
 
         self.initialize_dynamic_settings()
 
@@ -81,6 +84,7 @@ class Settings:
         self.cur_song = self.song4
 
         self.cur_frame_saucer = 0
+        self.max_frame_saucer = 400 + random.randint(0, 400)
         self.saucer = 0
         self.cur_frame_shoot = 0
         self.firing_bullets = False

@@ -24,10 +24,6 @@ class Saucer(Sprite):
         self.image2 = sprites.sprite_sheet.subsurface(
             pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-        sprite_info = sprites.sprite_infos["invader_death_2.png"]
-        self.image3 = sprites.sprite_sheet.subsurface(
-            pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
         self.image1 = self.image
         self.rect = self.image.get_rect()
 
@@ -42,9 +38,21 @@ class Saucer(Sprite):
         self.saucer_song = pygame.mixer.music.load("audio/saucer.wav")
         pygame.mixer.music.play(-1)
 
+        self.text_color = (230, 230, 230)
+        self.font = pygame.font.Font("fonts/BPdotsPlusBold.otf", 48)
+
+        self.score_image = 0
+        self.score_rect = 0
+
+        self.cur_frame_score = 0.0
+        self.max_frame_score = 40.0
+
     def blitme(self):
         """Draw the alien at its current location"""
-        self.screen.blit(self.image, self.rect)
+        if not self.toggle_death:
+            self.screen.blit(self.image, self.rect)
+        else:
+            self.screen.blit(self.score_image, self.score_rect)
 
     def update(self):
         """Move the alien right."""
@@ -55,7 +63,22 @@ class Saucer(Sprite):
             self.dead = True
 
         if self.toggle_death:
-            self.dead = True
+
+            if self.cur_frame_score == 0.0:
+                score_val = int(self.ai_settings.alien_points * 10.0)
+
+                score_str = "{:,}".format(score_val)
+                self.score_image = self.font.render(score_str, True, self.text_color)
+
+                # Display the score at the top right of the screen.
+                self.score_rect = self.score_image.get_rect()
+                self.score_rect.centerx = self.rect.centerx
+                self.score_rect.centery = self.rect.centery
+
+            self.cur_frame_score += 1.0
+
+            if self.cur_frame_score == self.max_frame_score:
+                self.dead = True
         else:
             # Update the sprite animation.
             self.cur_frame += 2.0 * self.ai_settings.alien_speed_factor

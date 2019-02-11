@@ -20,6 +20,9 @@ class GameStats():
         # The game level.
         self.level = 1
 
+        # The number of ships left over.
+        self.ships_left = 0
+
     def reset_stats(self):
         """Initialize statistics that can change during the game."""
         self.ships_left = self.ai_settings.ship_limit
