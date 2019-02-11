@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:11c8e3271e8f84836774dc38543405f4:2e01c70b2107adc389776b28e30e8ded:a3c246832ea35f0bdda766159aff8361$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="sprites.png" width="64" height="992">
+    <sprite n="invader1_1.png" x="0" y="0" w="64" h="64"/>
+    <sprite n="invader1_2.png" x="0" y="64" w="64" h="64"/>
+    <sprite n="invader2_1.png" x="0" y="128" w="64" h="64"/>
+    <sprite n="invader2_2.png" x="0" y="192" w="64" h="64"/>
+    <sprite n="invader3_1.png" x="0" y="256" w="64" h="64"/>
+    <sprite n="invader3_2.png" x="0" y="320" w="64" h="64"/>
+    <sprite n="invader4_1.png" x="0" y="384" w="64" h="64"/>
+    <sprite n="invader4_2.png" x="0" y="448" w="64" h="64"/>
+    <sprite n="invader_death.png" x="0" y="512" w="64" h="64"/>
+    <sprite n="invader_death_2.png" x="0" y="576" w="64" h="64"/>
+    <sprite n="ship.png" x="0" y="640" w="64" h="64"/>
+    <sprite n="ship_death_1.png" x="0" y="704" w="64" h="64"/>
+    <sprite n="ship_death_2.png" x="0" y="768" w="64" h="64"/>
+    <sprite n="wall1_1.png" x="0" y="832" w="32" h="32"/>
+    <sprite n="wall1_2.png" x="32" y="832" w="32" h="32"/>
+    <sprite n="wall1BL_1.png" x="0" y="864" w="32" h="32"/>
+    <sprite n="wall1BL_2.png" x="32" y="864" w="32" h="32"/>
+    <sprite n="wall1BR_1.png" x="0" y="896" w="32" h="32"/>
+    <sprite n="wall1BR_2.png" x="32" y="896" w="32" h="32"/>
+    <sprite n="wall1TL_1.png" x="0" y="928" w="32" h="32"/>
+    <sprite n="wall1TL_2.png" x="32" y="928" w="32" h="32"/>
+    <sprite n="wall1TR_1.png" x="0" y="960" w="32" h="32"/>
+    <sprite n="wall1TR_2.png" x="32" y="960" w="32" h="32"/>
+</TextureAtlas>
