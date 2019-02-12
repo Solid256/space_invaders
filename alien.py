@@ -13,7 +13,7 @@ class Alien(Sprite):
         self.alien_type = alien_type
         self.max_frames = 80.0
         self.cur_frame = 0.0
-        self.move_toggle1  = False
+        self.move_toggle1 = False
         self.anim_toggle = anim_toggle
         self.toggle_death = False
         self.dead = False

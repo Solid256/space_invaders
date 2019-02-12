@@ -16,7 +16,7 @@ class Settings:
         self.ship_limit = 3
 
         # Bullet settings:
-        self.bullet_width = 9
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 180, 180, 180
         self.bullets_allowed = 3
@@ -50,7 +50,7 @@ class Settings:
         # The time constraints for the saucer ship.
         self.cur_frame_saucer = 0
         self.max_frame_saucer = 400
-        self.saucer = 0
+        self.saucer = None
 
         # The enemy bullet class.
         self.cur_frame_enemy_bullet = 0
@@ -85,7 +85,7 @@ class Settings:
 
         self.cur_frame_saucer = 0
         self.max_frame_saucer = 400 + random.randint(0, 400)
-        self.saucer = 0
+        self.saucer = None
         self.cur_frame_shoot = 0
         self.firing_bullets = False
 
@@ -98,7 +98,7 @@ class Settings:
         self.alien_points = int(self.alien_points * self.score_scale)
 
         self.cur_frame_saucer = 0
-        self.saucer = 0
+        self.saucer = None
 
     # Member variables.
 

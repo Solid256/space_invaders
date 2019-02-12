@@ -1,5 +1,8 @@
 import pygame
+import random
+
 from pygame.sprite import Sprite
+from PIL import Image
 
 
 class Barrier(Sprite):
@@ -17,13 +20,12 @@ class Barrier(Sprite):
         # 4 - Bottom right.
         self.barrier_type = barrier_type
 
+        self.image2PIL = Image.new("RGB", (32, 32), color="black")
+        self.image2 = pygame.Surface((32, 32), )
+
         if self.barrier_type == 0:
             sprite_info = sprites.sprite_infos["wall1_1.png"]
             self.image1 = sprites.sprite_sheet.subsurface(
-                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
-            sprite_info = sprites.sprite_infos["wall1_2.png"]
-            self.image2 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
         elif self.barrier_type == 1:
@@ -31,17 +33,9 @@ class Barrier(Sprite):
             self.image1 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-            sprite_info = sprites.sprite_infos["wall1TL_2.png"]
-            self.image2 = sprites.sprite_sheet.subsurface(
-                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
         elif self.barrier_type == 2:
             sprite_info = sprites.sprite_infos["wall1TR_1.png"]
             self.image1 = sprites.sprite_sheet.subsurface(
-                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
-            sprite_info = sprites.sprite_infos["wall1TR_2.png"]
-            self.image2 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
         elif self.barrier_type == 3:
@@ -49,17 +43,9 @@ class Barrier(Sprite):
             self.image1 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-            sprite_info = sprites.sprite_infos["wall1BL_2.png"]
-            self.image2 = sprites.sprite_sheet.subsurface(
-                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
         elif self.barrier_type == 4:
             sprite_info = sprites.sprite_infos["wall1BR_1.png"]
             self.image1 = sprites.sprite_sheet.subsurface(
-                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
-
-            sprite_info = sprites.sprite_infos["wall1BR_2.png"]
-            self.image2 = sprites.sprite_sheet.subsurface(
                 pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
         self.image = self.image1
@@ -72,6 +58,45 @@ class Barrier(Sprite):
 
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
+
+    def update_image_pixels(self):
+        # The pygame pixel array.
+        pixel_array = pygame.PixelArray(self.image1)
+
+        # The pygame pixel array for the second texture.
+        pixel_array2 = pygame.PixelArray(self.image2)
+
+        # The Pillow pixel array.
+        pixels = self.image2PIL.load()
+
+        # Copy the pixels from the pygame texture to the pillow texture.
+        for pixelX in range(0, 32):
+            for pixelY in range(0, 32):
+                color = pixel_array[pixelX, pixelY]
+
+                pixels[pixelX, pixelY] = color
+
+        # Choose which pixels should be black.
+        for pixelX in range(0, 32):
+            for pixelY in range(0, 32):
+                black_or_green_num = random.randint(0, 1)
+
+                if black_or_green_num == 0:
+                    black_or_green = True
+                else:
+                    black_or_green = False
+
+                if black_or_green:
+                    pixels[pixelX, pixelY] = (0, 0, 0)
+
+        # Copy the pixels from the pillow texture to the pygame texture.
+        for pixelX in range(0, 32):
+            for pixelY in range(0, 32):
+                color = pixels[pixelX, pixelY]
+
+                pixel_array2[pixelX, pixelY] = color
+
+        self.image = self.image2
 
     def blitme(self):
         """Draw the barrier at its current location"""

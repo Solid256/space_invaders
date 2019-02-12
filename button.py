@@ -10,6 +10,7 @@ class Button:
         self.screen_rect = screen.get_rect()
         self.msg_image = None
         self.msg_image_rect = None
+        self.ai_settings = ai_settings
 
         # Set the dimensions and properties of the button.
         self.width, self.height = 200, 50

@@ -61,7 +61,7 @@ def run_game():
     barriers = Group()
 
     # Create the fleet of aliens.
-    gf.create_fleet(ai_settings, screen, ship, aliens, sprites)
+    gf.create_fleet(ai_settings, screen, aliens, sprites)
 
     # Create the barriers.
     gf.create_barriers(ai_settings, screen, barriers, sprites)

@@ -22,7 +22,7 @@ def check_events(game_running, stats, sb, ai_settings, screen, play_button, ship
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
                               bullets, enemy_bullets, mouse_x, mouse_y, barriers, sprites)
 
-        check_keydown_events(event, stats, ai_settings, screen, ship, bullets)
+        check_keydown_events(event, stats, ai_settings, ship)
         check_keyup_events(event, stats, ai_settings, ship)
 
     return game_running
@@ -55,12 +55,12 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         enemy_bullets.empty()
 
         # Create a new fleet and center the ship.
-        create_fleet(ai_settings, screen, ship, aliens, sprites)
-        create_barriers(ai_settings, screen, barriers, sprites )
+        create_fleet(ai_settings, screen, aliens, sprites)
+        create_barriers(ai_settings, screen, barriers, sprites)
         ship.center_ship()
 
 
-def check_keydown_events(event, stats, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, stats, ai_settings, ship):
     # The keydown events.
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
@@ -107,7 +107,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_b
 
     aliens.draw(screen)
 
-    if not ai_settings.saucer == 0:
+    if ai_settings.saucer is not None:
         ai_settings.saucer.blitme()
 
     # Redraw all bullets behind ship and aliens.
@@ -203,7 +203,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens,
         pygame.mixer.Sound.play(ship.sound_blast)
 
     # Remove any bullets and saucers that have collided.
-    if not ai_settings.saucer == 0:
+    if ai_settings.saucer is not None:
         saucers = Group()
         saucers.add(ai_settings.saucer)
 
@@ -215,7 +215,6 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens,
 
             for saucer in saucerGroup:
                 saucer.toggle_death = True
-                # todo: create saucer score image.
 
             check_high_score(stats, sb)
             pygame.mixer.Sound.play(ship.sound_blast)
@@ -226,14 +225,15 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens,
         bullets.empty()
         enemy_bullets.empty()
         ai_settings.increase_speed()
-        ai_settings.saucer = 0
+        del ai_settings.saucer
+        ai_settings.saucer = None
         ai_settings.cur_frame_saucer = 0
 
         # Increase level.
         stats.level += 1
         sb.prep_level()
 
-        create_fleet(ai_settings, screen, ship, aliens, sprites)
+        create_fleet(ai_settings, screen, aliens, sprites)
         create_barriers(ai_settings, screen, barriers, sprites)
 
 
@@ -248,7 +248,7 @@ def check_bullet_barrier_collisions(ship, bullets, barriers):
             for barrier in barrierGroup:
                 barrier.health -= 1
                 if barrier.health == 1:
-                    barrier.image = barrier.image2
+                    barrier.update_image_pixels()
                 elif barrier.health <= 0:
                     barriers.remove(barrier)
 
@@ -265,7 +265,7 @@ def check_enemy_bullet_ship_collisions(ai_settings, screen, stats, sb, ship, ali
     collisions = pygame.sprite.groupcollide(enemy_bullets, player_group, True, False)
 
     if collisions:
-        for shipGroup in collisions.values():
+        for x in range(0, len(collisions.values())):
             ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets,
                      barriers, sprites, False)
 
@@ -281,7 +281,7 @@ def check_enemy_bullet_barrier_collisions(ship, enemy_bullets, barriers):
             for barrier in barrierGroup:
                 barrier.health -= 1
                 if barrier.health == 1:
-                    barrier.image = barrier.image2
+                    barrier.update_image_pixels()
                 elif barrier.health <= 0:
                     barriers.remove(barrier)
 
@@ -343,11 +343,9 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number, sprites)
     aliens.add(alien)
 
 
-def create_fleet(ai_settings, screen, ship, aliens, sprites):
+def create_fleet(ai_settings, screen, aliens, sprites):
     """Create a full fleet of aliens."""
-    # Create an alien and find the number of aliens in a row.
-    # Spacing between each alien is equal to one alien width.
-    alien = Alien(ai_settings, screen, 1, False, sprites)
+    # Spacing between each alien is manually selected to be short.
 
     # The number of columns will be 11, just like in the original Space Invaders.
     number_aliens_x = 11
@@ -440,15 +438,16 @@ def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_b
         if alien.dead:
             aliens.remove(alien)
 
-    if not ai_settings.saucer == 0:
-        if ai_settings.saucer.dead:
-            ai_settings.saucer = 0
+    if ai_settings.saucer is not None and ai_settings.saucer.dead:
+        ai_settings.saucer = None
 
     # Update the enemy bullet chances.
     ai_settings.cur_frame_enemy_bullet += 0.5 * ai_settings.alien_speed_factor
 
     if ai_settings.cur_frame_enemy_bullet >= ai_settings.max_frame_enemy_bullet:
+        random.seed(pygame.time.get_ticks())
         ai_settings.cur_frame_enemy_bullet = 0.0
+        ai_settings.max_frame_enemy_bullet = 40 + random.randint(0, 40)
         num_aliens = len(aliens)
 
         if not num_aliens == 0:
@@ -460,7 +459,8 @@ def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_b
 
     # Look for alien-ship collisions.
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers, False)
+        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers,
+                 sprites, False)
 
     # Look for aliens hitting the bottom of the screen
     check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers,
@@ -502,7 +502,7 @@ def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_b
         ai_settings.saucer.x = 0
         ai_settings.saucer.y = 128
 
-    if not ai_settings.saucer == 0:
+    if ai_settings.saucer is not None:
         ai_settings.saucer.update()
 
 
@@ -531,7 +531,8 @@ def end_level(ai_settings, screen, stats, ship, aliens, bullets, enemy_bullets, 
     bullets.empty()
     enemy_bullets.empty()
     barriers.empty()
-    ai_settings.saucer = 0
+    del ai_settings.saucer
+    ai_settings.saucer = None
     ai_settings.cur_frame_saucer = 0
     ai_settings.cur_frame_ship_destroyed = 0.0
     ai_settings.ship_destroyed = False
@@ -540,7 +541,7 @@ def end_level(ai_settings, screen, stats, ship, aliens, bullets, enemy_bullets, 
     pygame.mixer.music.stop()
 
     # Create a new fleet and center the ship.
-    create_fleet(ai_settings, screen, ship, aliens, sprites)
+    create_fleet(ai_settings, screen, aliens, sprites)
     create_barriers(ai_settings, screen, barriers, sprites)
     ship.center_ship()
 
