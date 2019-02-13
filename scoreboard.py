@@ -3,6 +3,8 @@ from pygame.sprite import Group
 
 from ship import Ship
 
+import struct
+
 
 class Scoreboard:
     """A class to report scoring information."""
@@ -24,6 +26,17 @@ class Scoreboard:
         self.prep_high_score()
         self.prep_level()
         self.prep_ships()
+        self.high_scores = []
+
+        in_file = open("high_scores.bin", "rb")
+
+        for x in range(0, 10):
+            cur_score = struct.unpack('i', in_file.read(4))[0]
+            self.high_scores.append(cur_score)
+
+        in_file.close()
+
+        self.stats.high_score = self.high_scores[0]
 
     def prep_score(self):
         """Turn the score into a rendered image."""
@@ -73,6 +86,26 @@ class Scoreboard:
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)
+
+    def add_new_high_score(self, high_score):
+
+        # Add the new high score by comparing to other high scores.
+        for x in range(0, len(self.high_scores)):
+            if high_score >= self.high_scores[x]:
+                self.high_scores.insert(x, high_score)
+                self.high_scores.pop(9)
+                break
+
+    def export_new_high_scores(self):
+
+        # The out file for the high scores.
+        out_file = open("high_scores.bin", "wb")
+
+        for x in range(0, 10):
+            cur_score = struct.pack('i', self.high_scores[x])
+            out_file.write(cur_score)
+
+        out_file.close()
 
     # Member variables:
     score_image = None

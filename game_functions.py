@@ -9,7 +9,7 @@ from pygame.sprite import Group
 from barrier import Barrier
 
 
-def check_events(game_running, stats, sb, ai_settings, screen, play_button, ship, aliens,
+def check_events(game_running, stats, sb, ai_settings, screen, ship, aliens,
                  bullets, enemy_bullets, barriers, sprites):
     """Respond to keypresses and mouse events."""
     for event in pygame.event.get():
@@ -19,8 +19,15 @@ def check_events(game_running, stats, sb, ai_settings, screen, play_button, ship
             game_running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
-                              bullets, enemy_bullets, mouse_x, mouse_y, barriers, sprites)
+            if ai_settings.play_button is not None:
+                check_play_button(ai_settings, screen, stats, sb, aliens, bullets, enemy_bullets, mouse_x,
+                                  mouse_y, barriers, sprites)
+
+            if ai_settings.high_scores_button is not None:
+                check_high_scores_button(ai_settings, stats, mouse_x, mouse_y)
+
+            if ai_settings.high_scores_back_button is not None:
+                check_high_scores_back_button(ai_settings, stats, mouse_x, mouse_y)
 
         check_keydown_events(event, stats, ai_settings, ship)
         check_keyup_events(event, stats, ai_settings, ship)
@@ -28,10 +35,10 @@ def check_events(game_running, stats, sb, ai_settings, screen, play_button, ship
     return game_running
 
 
-def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets,
+def check_play_button(ai_settings, screen, stats, sb, aliens, bullets,
                       enemy_bullets, mouse_x, mouse_y, barriers, sprites):
     """Start a new game when the player clicks Play."""
-    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    button_clicked = ai_settings.play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         # Reset the game settings.
         ai_settings.initialize_dynamic_settings()
@@ -57,7 +64,40 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         # Create a new fleet and center the ship.
         create_fleet(ai_settings, screen, aliens, sprites)
         create_barriers(ai_settings, screen, barriers, sprites)
-        ship.center_ship()
+
+        del ai_settings.play_button
+        del ai_settings.high_scores_button
+
+        ai_settings.play_button = None
+        ai_settings.high_scores_button = None
+
+        ai_settings.current_sequence = 1
+
+
+def check_high_scores_button(ai_settings, stats, mouse_x, mouse_y):
+    """Start a new game when the player clicks Play."""
+    button_clicked = ai_settings.high_scores_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+
+        del ai_settings.high_scores_button
+        del ai_settings.play_button
+
+        ai_settings.play_button = None
+        ai_settings.high_scores_button = None
+
+        ai_settings.current_sequence = 3
+
+
+def check_high_scores_back_button(ai_settings, stats, mouse_x, mouse_y):
+    """Start a new game when the player clicks Play."""
+    button_clicked = ai_settings.high_scores_back_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+
+        del ai_settings.high_scores_back_button
+
+        ai_settings.high_scores_back_button = None
+
+        ai_settings.current_sequence = 0
 
 
 def check_keydown_events(event, stats, ai_settings, ship):
@@ -65,15 +105,15 @@ def check_keydown_events(event, stats, ai_settings, ship):
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
             # Allow the ship to move to the right.
-            if not ai_settings.ship_destroyed:
+            if not ai_settings.ship_destroyed and ai_settings.current_sequence == 1:
                 ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             # Allow the ship to move to the left.
-            if not ai_settings.ship_destroyed:
+            if not ai_settings.ship_destroyed and ai_settings.current_sequence == 1:
                 ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             if stats.game_active:
-                if not ai_settings.ship_destroyed:
+                if not ai_settings.ship_destroyed and ai_settings.current_sequence == 1:
                     ai_settings.firing_bullets = True
                     ai_settings.cur_frame_shoot = ai_settings.max_frame_shoot
         elif event.key == pygame.K_q:
@@ -85,44 +125,162 @@ def check_keyup_events(event, stats, ai_settings, ship):
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_RIGHT:
             # Stop the ship from moving to the right.
-            ship.moving_right = False
+            if ai_settings.current_sequence == 1:
+                ship.moving_right = False
         if event.key == pygame.K_LEFT:
             # Stop the ship from moving to the left.
-            ship.moving_left = False
+            if ai_settings.current_sequence == 1:
+                ship.moving_left = False
         elif event.key == pygame.K_SPACE:
             if stats.game_active:
                 ai_settings.firing_bullets = False
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers, space_text,
+                  invaders_text, high_scores_text, sprites):
     """Update images on the screen and flip to the new screen."""
     # Primary game code.
     screen.fill(ai_settings.bg_color)
 
-    # Draw the ship to the backbuffer.
-    ship.blitme()
+    if ai_settings.current_sequence == 0:
+        # Draw the play button if the game is inactive.
+        if not stats.game_active:
+            if ai_settings.play_button is not None:
+                ai_settings.play_button.draw_button()
+            if ai_settings.high_scores_button is not None:
+                ai_settings.high_scores_button.draw_button()
 
-    # Redraw all the barriers.
-    barriers.draw(screen)
+            # Render the alien invaders text.
+            msg_image_rect = space_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx
+            msg_image_rect.centery = 128
+            screen.blit(space_text, msg_image_rect)
 
-    aliens.draw(screen)
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx
+            msg_image_rect.centery = 220
+            screen.blit(invaders_text, msg_image_rect)
 
-    if ai_settings.saucer is not None:
-        ai_settings.saucer.blitme()
+            # Render the four alien types.
+            sprite_info = sprites.sprite_infos["invader1_1.png"]
+            cur_image = sprites.sprite_sheet.subsurface(
+                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-    # Redraw all bullets behind ship and aliens.
-    for bullet in bullets.sprites():
-        bullet.draw_bullet()
+            cur_rect = cur_image.get_rect()
+            cur_rect.centerx = screen.get_rect().centerx - 120
+            cur_rect.centery = 300
 
-    for bullet in enemy_bullets.sprites():
-        bullet.draw_bullet()
+            screen.blit(cur_image, cur_rect)
 
-    # Draw the score information.
-    sb.show_score()
+            sprite_info = sprites.sprite_infos["invader2_1.png"]
+            cur_image = sprites.sprite_sheet.subsurface(
+                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
 
-    # Draw the play button if the game is inactive.
-    if not stats.game_active:
-        play_button.draw_button()
+            cur_rect = cur_image.get_rect()
+            cur_rect.centerx = screen.get_rect().centerx - 120
+            cur_rect.centery = 364
+
+            screen.blit(cur_image, cur_rect)
+
+            sprite_info = sprites.sprite_infos["invader3_1.png"]
+            cur_image = sprites.sprite_sheet.subsurface(
+                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
+
+            cur_rect = cur_image.get_rect()
+            cur_rect.centerx = screen.get_rect().centerx - 120
+            cur_rect.centery = 428
+
+            screen.blit(cur_image, cur_rect)
+
+            sprite_info = sprites.sprite_infos["invader4_1.png"]
+            cur_image = sprites.sprite_sheet.subsurface(
+                pygame.Rect(sprite_info.x, sprite_info.y, sprite_info.w, sprite_info.h))
+
+            cur_rect = cur_image.get_rect()
+            cur_rect.centerx = screen.get_rect().centerx - 120
+            cur_rect.centery = 472
+
+            screen.blit(cur_image, cur_rect)
+
+            # Render the alien values text.
+            cur_font = pygame.font.Font("fonts/BPdotsPlusBold.otf", 32)
+
+            # Build the text's rect object and center it.
+            invaders_text = cur_font.render("= 10 PTS", True, (200, 200, 200), (0, 0, 0))
+
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx + 10
+            msg_image_rect.centery = 300
+            screen.blit(invaders_text, msg_image_rect)
+
+            invaders_text = cur_font.render("= 20 PTS", True, (200, 200, 200), (0, 0, 0))
+
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx + 10
+            msg_image_rect.centery = 364
+            screen.blit(invaders_text, msg_image_rect)
+
+            invaders_text = cur_font.render("= 40 PTS", True, (200, 200, 200), (0, 0, 0))
+
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx + 10
+            msg_image_rect.centery = 428
+            screen.blit(invaders_text, msg_image_rect)
+
+            invaders_text = cur_font.render("= ???", True, (200, 200, 200), (0, 0, 0))
+
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx + 10
+            msg_image_rect.centery = 490
+            screen.blit(invaders_text, msg_image_rect)
+    elif ai_settings.current_sequence == 1:
+        # Draw the ship to the backbuffer.
+        ship.blitme()
+
+        # Redraw all the barriers.
+        barriers.draw(screen)
+
+        aliens.draw(screen)
+
+        if ai_settings.saucer is not None:
+            ai_settings.saucer.blitme()
+
+        # Redraw all bullets behind ship and aliens.
+        for bullet in bullets.sprites():
+            bullet.draw_bullet()
+
+        for bullet in enemy_bullets.sprites():
+            bullet.draw_bullet()
+
+        # Draw the score information.
+        sb.show_score()
+    elif ai_settings.current_sequence == 3:
+        # Render the high score text.
+        msg_image_rect = high_scores_text.get_rect()
+        msg_image_rect.centerx = screen.get_rect().centerx
+        msg_image_rect.centery = 100
+        screen.blit(high_scores_text, msg_image_rect)
+
+        # Render the back button.
+        if ai_settings.high_scores_back_button is not None:
+            ai_settings.high_scores_back_button.draw_button()
+
+        high_scores = sb.high_scores
+
+        text_y_offset = 200
+
+        for high_score in high_scores:
+            # Render the high scores values text.
+            cur_font = pygame.font.Font("fonts/BPdotsPlusBold.otf", 32)
+
+            invaders_text = cur_font.render(str(high_score), True, (200, 200, 200), (0, 0, 0))
+
+            msg_image_rect = invaders_text.get_rect()
+            msg_image_rect.centerx = screen.get_rect().centerx + 10
+            msg_image_rect.centery = text_y_offset
+            screen.blit(invaders_text, msg_image_rect)
+
+            text_y_offset += 40
 
     # Swap the backbuffer.
     pygame.display.flip()
@@ -192,7 +350,14 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens,
 
     if collisions:
         for alienGroup in collisions.values():
-            stats.score += ai_settings.alien_points * len(alienGroup)
+            for cur_alien in alienGroup:
+                if cur_alien.alien_type == 1:
+                    stats.score += 10
+                elif cur_alien.alien_type == 2:
+                    stats.score += 20
+                elif cur_alien.alien_type == 3:
+                    stats.score += 40
+
             sb.prep_score()
 
             for alien in alienGroup:
@@ -520,12 +685,12 @@ def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullet
     # Pause.
     if pause:
         sleep(0.5)
-        end_level(ai_settings, screen, stats, ship, aliens, bullets, enemy_bullets, barriers, sprites)
+        end_level(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers, sprites)
     else:
         pygame.mixer.Sound.play(ship.sound_ship_destroyed)
 
 
-def end_level(ai_settings, screen, stats, ship, aliens, bullets, enemy_bullets, barriers, sprites):
+def end_level(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets, barriers, sprites):
     # Empty the list of aliens and bullets.
     aliens.empty()
     bullets.empty()
@@ -540,14 +705,19 @@ def end_level(ai_settings, screen, stats, ship, aliens, bullets, enemy_bullets, 
 
     pygame.mixer.music.stop()
 
-    # Create a new fleet and center the ship.
-    create_fleet(ai_settings, screen, aliens, sprites)
-    create_barriers(ai_settings, screen, barriers, sprites)
-    ship.center_ship()
-
     if stats.ships_left < 0:
         stats.game_active = False
         pygame.mouse.set_visible(True)
+        del ship
+        ai_settings.current_sequence = 0
+        sb.add_new_high_score(stats.score)
+        stats.high_score = sb.high_scores[0]
+        sb.export_new_high_scores()
+    else:
+        # Create a new fleet and center the ship.
+        create_fleet(ai_settings, screen, aliens, sprites)
+        create_barriers(ai_settings, screen, barriers, sprites)
+        ship.center_ship()
 
 
 def check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets,

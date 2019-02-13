@@ -7,6 +7,14 @@ class Settings:
 
     def __init__(self):
         """Initialize the game's settings."""
+
+        # The current sequence.
+        # 0 - Title screen
+        # 1 - Game
+        # 2 - Game Over
+        # 3 - High Scores
+        self.current_sequence = 0
+
         # Screen settings.
         self.screen_width = 1200
         self.screen_height = 800
@@ -33,7 +41,7 @@ class Settings:
         self.speedup_scale = 1.1
 
         # How quickly the alien point values increase
-        self.score_scale = 1.5
+        self.score_scale = 1.0
 
         # The initial music frames.
         self.cur_music_frame = 0.0
@@ -61,6 +69,15 @@ class Settings:
         self.max_frame_ship_destroyed = 40.0
 
         self.end_level = False
+
+        # The play button.
+        self.play_button = None
+
+        # The high score button.
+        self.high_scores_button = None
+
+        # The high score back button.
+        self.high_scores_back_button = None
 
         random.seed()
 
