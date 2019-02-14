@@ -38,7 +38,7 @@ class Settings:
         self.fleet_drop_speed = 16
 
         # How quickly the game speeds up
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.005
 
         # How quickly the alien point values increase
         self.score_scale = 1.0
@@ -79,6 +79,9 @@ class Settings:
         # The high score back button.
         self.high_scores_back_button = None
 
+        # The player's ship.
+        self.ship = None
+
         random.seed()
 
         self.initialize_dynamic_settings()
@@ -112,10 +115,8 @@ class Settings:
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
 
-        self.alien_points = int(self.alien_points * self.score_scale)
-
-        self.cur_frame_saucer = 0
-        self.saucer = None
+        if self.bullet_speed_factor > self.max_bullet_speed_factor:
+            self.bullet_speed_factor = self.max_bullet_speed_factor
 
     # Member variables.
 
@@ -129,3 +130,6 @@ class Settings:
 
     # Scoring.
     alien_points = 50
+
+    # The player's ship
+    ship = None

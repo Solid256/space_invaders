@@ -92,8 +92,8 @@ class Scoreboard:
         # Add the new high score by comparing to other high scores.
         for x in range(0, len(self.high_scores)):
             if high_score >= self.high_scores[x]:
-                self.high_scores.insert(x, high_score)
-                self.high_scores.pop(9)
+                self.high_scores.insert(x, int(high_score))
+                self.high_scores.pop()
                 break
 
     def export_new_high_scores(self):

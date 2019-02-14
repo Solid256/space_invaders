@@ -79,9 +79,12 @@ class Barrier(Sprite):
         # Choose which pixels should be black.
         for pixelX in range(0, 32):
             for pixelY in range(0, 32):
-                black_or_green_num = random.randint(0, 1)
+                # Checks randomly if the pixel should be colored black.
+                dist_from_center = int(pow((pow(pixelX - 16, 2) + pow(pixelY - 16, 2)), 0.5))
 
-                if black_or_green_num == 0:
+                black_or_green_num = random.randint(0, int(pow(dist_from_center / 1.5, 2)))
+
+                if black_or_green_num < 16:
                     black_or_green = True
                 else:
                     black_or_green = False

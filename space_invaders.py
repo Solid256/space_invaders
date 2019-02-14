@@ -45,9 +45,6 @@ def run_game():
     # Checks if the game is currently running.
     game_running = True
 
-    # Make a ship
-    ship = None
-
     # Make a group to store bullets in.
     bullets = Group()
 
@@ -95,26 +92,26 @@ def run_game():
 
         elif ai_settings.current_sequence == 1:
 
-            if ship is None:
+            if ai_settings.ship is None:
                 # Make a ship
-                ship = Ship(screen, ai_settings, sprites)
-                ship.center_ship()
+                ai_settings.ship = Ship(screen, ai_settings, sprites)
+                ai_settings.ship.center_ship()
 
             if stats.game_active and game_running:
                 # Updating the game objects.
-                ship.update()
+                ai_settings.ship.update()
 
                 # Check if the level needs to be ended.
                 if ai_settings.end_level:
-                    gf.end_level(ai_settings, screen, stats, sb, ship, aliens, bullets, enemy_bullets,
+                    gf.end_level(ai_settings, screen, stats, sb, aliens, bullets, enemy_bullets,
                                  barriers, sprites)
 
-                if not ai_settings.ship_destroyed:
-                    gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets,
+                if not ai_settings.ship_destroyed and ai_settings.ship is not None:
+                    gf.update_bullets(ai_settings, screen, stats, sb, aliens, bullets,
                                       enemy_bullets, barriers, sprites)
-                    gf.update_enemy_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets,
+                    gf.update_enemy_bullets(ai_settings, screen, stats, sb, aliens, bullets,
                                             enemy_bullets, barriers, sprites)
-                    gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets,
+                    gf.update_aliens(ai_settings, screen, stats, sb, aliens, bullets,
                                      enemy_bullets, barriers, sprites)
 
         elif ai_settings.current_sequence == 3:
@@ -130,11 +127,11 @@ def run_game():
                 ai_settings.high_scores_back_button = Button(ai_settings, screen, 664, (128, 128, 128), "BACK")
 
         # Updating the rendering process.
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets,
+        gf.update_screen(ai_settings, screen, stats, sb, aliens, bullets,
                          enemy_bullets, barriers, space_text, invaders_text, high_scores_text, sprites)
 
         # Checking for game events.
-        game_running = gf.check_events(game_running, stats, sb, ai_settings, screen, ship, aliens, bullets,
+        game_running = gf.check_events(game_running, stats, sb, ai_settings, screen, aliens, bullets,
                                        enemy_bullets, barriers, sprites)
 
         pygame_clock.tick(60)

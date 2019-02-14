@@ -63,7 +63,6 @@ class Saucer(Sprite):
             self.dead = True
 
         if self.toggle_death:
-
             if self.cur_frame_score == 0.0:
                 score_val = int(self.ai_settings.alien_points * 10.0)
 
@@ -81,9 +80,14 @@ class Saucer(Sprite):
                 self.dead = True
         else:
             # Update the sprite animation.
-            self.cur_frame += 2.0 * self.ai_settings.alien_speed_factor
+            speed_increase = 2.0 + self.ai_settings.alien_speed_factor
 
-            self.x += 2.0 * self.ai_settings.alien_speed_factor
+            if speed_increase > 8.0:
+                speed_increase = 8.0
+
+            self.cur_frame += speed_increase
+
+            self.x += speed_increase
             self.rect.x = self.x
 
             while self.cur_frame > self.max_frames:
