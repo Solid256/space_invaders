@@ -495,9 +495,9 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number, sprites)
 
     # The type of alien to create.
     alien_type = 3
-    if row_number == 1 or row_number == 2:
+    if row_number == 2 or row_number == 3:
         alien_type = 2
-    elif row_number >= 3:
+    elif row_number >= 4:
         alien_type = 1
 
     anim_toggle = False
@@ -509,7 +509,7 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number, sprites)
     alien_width = alien.rect.width
     alien.x = alien_width + 1.1 * alien_width * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 1.1 * alien.rect.height * row_number + 48
+    alien.rect.y = alien.rect.height + 1.0 * alien.rect.height * row_number + 48
     aliens.add(alien)
 
 
@@ -520,8 +520,8 @@ def create_fleet(ai_settings, screen, aliens, sprites):
     # The number of columns will be 11, just like in the original Space Invaders.
     number_aliens_x = 11
 
-    # The number of rows will be 5, just like in the original Space Invaders.
-    number_rows = 5
+    # The number of rows will be 6.
+    number_rows = 6
 
     # Create the first row of aliens.
     for row_number in range(number_rows):

@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5258e5cd-0379-4e97-97c9-415b45998c07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/high_scores.bin" beforeDir="false" afterPath="$PROJECT_DIR$/high_scores.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader1_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader1_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader1_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader1_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader2_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader2_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader2_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader2_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader3_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader3_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/invader3_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/invader3_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ship_death_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ship_death_3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ship_death_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ship_death_5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ship_death_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ship_death_6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ship_death_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ship_death_7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/sprites.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/sprites.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/sprites.xml" beforeDir="false" afterPath="$PROJECT_DIR$/images/sprites.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +12,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/game_functions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="511" column="42" selection-start-line="511" selection-start-column="42" selection-end-line="511" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bullet.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -70,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sprites.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="38" column="58" lean-forward="true" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
+            <state relative-caret-position="339">
+              <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -151,10 +147,10 @@
         <option value="$PROJECT_DIR$/barrier.py" />
         <option value="$PROJECT_DIR$/bullet.py" />
         <option value="$PROJECT_DIR$/space_invaders.py" />
-        <option value="$PROJECT_DIR$/game_functions.py" />
         <option value="$PROJECT_DIR$/settings.py" />
         <option value="$PROJECT_DIR$/scoreboard.py" />
         <option value="$PROJECT_DIR$/saucer.py" />
+        <option value="$PROJECT_DIR$/game_functions.py" />
       </list>
     </option>
   </component>
@@ -256,13 +252,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="678" y="0" width="1242" height="1040" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22093023" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22093023" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49833888" weight="0.3296582" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49667773" visible="true" weight="0.3296582" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49667773" visible="true" weight="0.3296582" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -336,13 +333,6 @@
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/game_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6069">
-          <caret line="365" column="44" selection-start-line="365" selection-start-column="44" selection-end-line="365" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -429,11 +419,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sprites.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="38" column="58" lean-forward="true" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
+        <state relative-caret-position="339">
+          <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="511" column="42" selection-start-line="511" selection-start-column="42" selection-end-line="511" selection-end-column="42" />
         </state>
       </provider>
     </entry>
